@@ -1,0 +1,5 @@
+// eventsFromVM
+
+sealed class NoticeEventFromVM {
+    data object ExitApplication : NoticeEventFromVM()
+}
