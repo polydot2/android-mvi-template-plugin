@@ -1,5 +1,0 @@
-// state
-
-data class ReferenceScreenState(
-    val isLoading: Boolean
-)

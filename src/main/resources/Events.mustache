@@ -1,6 +1,0 @@
-package {{PACKAGE_NAME}}
-
-sealed class HomeEvents {
-    object Refresh : HomeEvents() // Rafraîchir les données
-    data class SelectPassport(val passportId: Int) : HomeEvents() // Sélectionner un passport
-}

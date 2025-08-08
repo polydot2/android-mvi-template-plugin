@@ -1,57 +1,34 @@
 package {{PACKAGE_NAME}}
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
-
 
 @HiltViewModel
 class {{NAME}}ViewModel @Inject constructor(
-    val getAllPassportUseCase: GetAllPassportUseCase
-) : ViewModel() {
-    private val _uiState = MutableStateFlow<{{NAME}}UiState>({{NAME}}UiState.Loading)
-    val uiState: StateFlow<{{NAME}}UiState> = _uiState
+    @TaxReturnModule private val dispatcher: CoroutineDispatcher = DefaultIoDispatcher
+) : BaseViewModel(ioDispatcher = dispatcher) {
+    private val _state = MutableStateFlow({{NAME}}ScreenState(isLoading = true))
+    val state = _state.asStateFlow()
+    private val _eventChannel = Channel<{{NAME}}EventFromVM>()
+    val events = _eventChannel.receiveAsFlow()
 
-    // Channel pour recevoir les events de l'UI
-    private val _eventChannel = Channel<{{NAME}}Events>(Channel.BUFFERED)
-    val eventFlow = _eventChannel.receiveAsFlow()
-
-    // SharedFlow pour émettre les effets secondaires
-    private val _sideEffect = MutableSharedFlow<{{NAME}}SideEffect>()
-    val sideEffect = _sideEffect.asSharedFlow()
-
-    init {
-        // Observer les events dans init
-        viewModelScope.launch {
-            eventFlow.collect { event ->
-                handleEvent(event)
-            }
-        }
-    }
-
-    // Fonction publique pour envoyer des events depuis l'UI
-    fun sendEvent(event: {{NAME}}Events) {
-        viewModelScope.launch {
-            _eventChannel.send(event)
-        }
-    }
-
-    private fun handleEvent(event: {{NAME}}Events) {
+    /**
+     * Méthode permettant de gérer les événements en provenance de la couche UI
+     * @param event Evenement en provenance de la couche UI
+     */
+    fun onEvent(event: {{NAME}}Event) {
         when (event) {
-            is {{NAME}}Events.Refresh -> fetchData()
-            is {{NAME}}Events.SelectPassport -> {
-                viewModelScope.launch {
-                    _sideEffect.emit({{NAME}}SideEffect.NavigateToPassportDetail(event.passportId))
-                }
-            }
+            is {{NAME}}Event.ExitApplication -> onExitApplication()
         }
+    }
+
+    private fun onExitApplication() {
+        _eventChannel.trySend({{NAME}}EventFromVM.ExitApplication)
     }
 }

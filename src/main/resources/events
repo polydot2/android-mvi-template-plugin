@@ -1,5 +1,0 @@
-// events
-
-sealed interface NoticeEvent {
-    data object ExitApplication : NoticeEvent
-}

@@ -1,4 +1,4 @@
-// screen
+package {{PACKAGE_NAME}}
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,8 +12,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun NoticeScreen(
-    viewModel: NoticeViewModel = hiltViewModel(),
+fun {{NAME}}Screen(
+    viewModel: {{NAME}}ViewModel = hiltViewModel(),
     exitApplication: (shouldShowPopup: Boolean) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -21,7 +21,7 @@ fun NoticeScreen(
     LaunchedEffect(Unit) {
         viewModel.events.collectLatest {
             when (it) {
-                is NoticeEventFromVM.ExitApplication -> {
+                is {{NAME}}EventFromVM.ExitApplication -> {
                     exitApplication(false)
                 }
             }
@@ -29,7 +29,7 @@ fun NoticeScreen(
     }
 
     BaseScreen(viewModel = viewModel) {
-        NoticeScreen(
+        {{NAME}}Screen(
             state = state,
             onEvent = viewModel::onEvent
         )
@@ -37,9 +37,9 @@ fun NoticeScreen(
 }
 
 @Composable
-private fun NoticeScreen(
-    state: NoticeScreenState,
-    onEvent: (NoticeEvent) -> Unit
+private fun {{NAME}}Screen(
+    state: {{NAME}}ScreenState,
+    onEvent: ({{NAME}}Event) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         Text(state.configuration?.toString() ?: "Configuration non chargé...")
@@ -48,8 +48,8 @@ private fun NoticeScreen(
 
 @SmarteoPreview
 @Composable
-private fun NoticeScreenPreview() {
+private fun {{NAME}}ScreenPreview() {
     TransverseTheme {
-        NoticeScreen(state = NoticeScreenState(), onEvent = {})
+        {{NAME}}Screen(state = {{NAME}}ScreenState(), onEvent = {})
     }
 }
