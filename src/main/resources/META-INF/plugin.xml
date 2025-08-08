@@ -1,0 +1,49 @@
+<idea-plugin>
+    <id>com.poly.helpme</id>
+    <name>HelpMe</name>
+    <vendor email="your.email@example.com" url="https://www.example.com">Poly</vendor>
+    <description>Generates a Repository with interface, implementation, and DI module using Mustache templates.</description>
+    <version>1.0</version>
+    <idea-version since-build="233.*" until-build="242.*"/>
+
+    <!-- Dépendances pour Android Studio -->
+    <depends>org.jetbrains.android</depends>
+    <depends>com.intellij.modules.androidstudio</depends>
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Action dans le menu contextuel -->
+    <actions>
+        <action id="com.poly.helpme.CreateRepositoryAction" class="com.poly.helpme.CreateRepositoryAction"
+                text="Create Repository" description="Create a Repository with interface and impl">
+            <add-to-group group-id="NewGroup" anchor="last"/>
+        </action>
+    </actions>
+    <!-- Action dans le menu contextuel -->
+    <actions>
+        <action id="com.poly.helpme.CreateNewScreenAction" class="com.poly.helpme.CreateNewScreenAction"
+                text="Create Repository" description="Create composable MVI with viewmodel with events/eventsVM/state">
+            <add-to-group group-id="NewGroup" anchor="last"/>
+        </action>
+    </actions>
+    <!-- Action dans le menu contextuel -->
+    <actions>
+        <action id="com.poly.helpme.CreateDIAction" class="com.poly.helpme.CreateDIAction"
+                text="Create Repository" description="Create composable MVI with viewmodel with events/eventsVM/state">
+            <add-to-group group-id="NewGroup" anchor="last"/>
+        </action>
+    </actions>
+    <!-- Action dans le menu contextuel -->
+    <actions>
+        <action id="com.poly.helpme.CreateMainActivity" class="com.poly.helpme.CreateMainActivity"
+                text="Create Repository" description="Create composable MVI with viewmodel with events/eventsVM/state">
+            <add-to-group group-id="NewGroup" anchor="last"/>
+        </action>
+    </actions>
+    <!-- Action dans le menu contextuel -->
+    <actions>
+        <action id="com.poly.helpme.CreateUseCasesAction" class="com.poly.helpme.CreateUseCasesAction"
+                text="Create Repository" description="Create composable MVI with viewmodel with events/eventsVM/state">
+            <add-to-group group-id="NewGroup" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
