@@ -1,0 +1,62 @@
+name: Build and Release IntelliJ Plugin
+
+on:
+  push:
+    tags:
+      - '*.*.*' # Trigger on tags like 1.0.0
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required for creating releases and uploading assets
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Set up JDK
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17' # Adjust if your plugin requires a different JDK version
+          distribution: 'temurin'
+
+      # Set up Gradle
+      - name: Set up Gradle
+        uses: gradle/gradle-build-action@v3
+
+      # Grant executable permission to gradlew
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      # Build the plugin
+      - name: Build plugin
+        run: ./gradlew buildPlugin
+
+      # Create a GitHub Release
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }} # e.g., 1.0.0
+          release_name: Release ${{ github.ref_name }}
+          draft: true # Draft release, as in your previous workflow
+          prerelease: false
+          body: |
+            Automated release for IntelliJ plugin ${{ github.ref_name }}
+            - Built with Gradle buildPlugin task
+
+      # Upload the plugin ZIP artifact
+      - name: Upload Plugin Artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/distributions/helpme-1.0-SNAPSHOT.zip # Adjust if your plugin ZIP has a different name
+          asset_name: helpme-1.0-SNAPSHOT.zip
+          asset_content_type: application/zip
