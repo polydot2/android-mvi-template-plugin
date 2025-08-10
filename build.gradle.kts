@@ -8,9 +8,8 @@ version = "1.0-SNAPSHOT"
 
 dependencies {
     intellijPlatform {
-        //androidStudio("2023.3.1.20")
-        //androidStudio("2025.1.2.11")
-        local("C:/Program Files/Android/Android Studio")
+        androidStudio("2025.1.2.11")
+        //local("C:/Program Files/Android/Android Studio")
         bundledPlugin("org.jetbrains.android")
     }
     implementation("com.github.spullara.mustache.java:compiler:0.9.10") {
