@@ -44,7 +44,7 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }} # e.g., 1.0.0
           release_name: Release ${{ github.ref_name }}
-          draft: true # Draft release, as in your previous workflow
+          draft: false # Draft release, as in your previous workflow
           prerelease: false
           body: |
             Automated release for IntelliJ plugin ${{ github.ref_name }}
