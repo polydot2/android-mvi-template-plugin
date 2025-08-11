@@ -8,7 +8,7 @@ version = "1.0-SNAPSHOT"
 
 dependencies {
     intellijPlatform {
-        androidStudio("251.26094")
+        androidStudio("2025.1.1.13")
         //local("C:/Program Files/Android/Android Studio")
         bundledPlugin("org.jetbrains.android")
     }
